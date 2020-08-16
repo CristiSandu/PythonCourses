@@ -30,5 +30,5 @@ while index != count :
         nr = nr + 1
         if nr == position :
             url = tag.get('href', None)
-            print(tag.get('href', None))
+            print(url)
             break
