@@ -44,14 +44,17 @@ DROP TABLE IF EXISTS Artists;
 
 CREATE TABLE Artists (
     id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    name    TEXT UNIQUE,
+    name    TEXT ,
     link_artist TEXT UNIQUE
 );
 
 CREATE TABLE Track (
     id  INTEGER NOT NULL PRIMARY KEY 
         AUTOINCREMENT UNIQUE,
-    title TEXT  UNIQUE,
+    title TEXT ,
+    fullname TEXT,
+    html TEXT,
+    html_dark TEXT,
     artist_id  INTEGER,
     link_track TEXT UNIQUE
 );''')
@@ -66,8 +69,9 @@ for line in list_link:
             continue
     print(name)
     name2 = name
-    name = name.upper()
-   
+    name = name.capitalize()
+    name = name.replace("-"," ")
+    print(name)
     #cur.execute('SELECT  FROM Artists WHERE Name = ? ', (name,))
     row = cur.fetchone()
     cur.execute('''INSERT OR IGNORE INTO Artists (name, link_artist)
@@ -89,7 +93,7 @@ for line in list_link:
                 continue 
             else:
                list_tracks.append(tag.get('href',None))
-
+    list_name = list()
     for track in list_tracks :
         link_name_track = 'https://www.tabulaturi.ro/acorduri/'+ name2
         if not track.startswith(link_name_track): continue
@@ -97,11 +101,37 @@ for line in list_link:
         name = pieces[5]
         print("     " + name)
         name = name.upper()
-        cur.execute('''INSERT OR REPLACE INTO Track
-        (title, artist_id, link_track) 
-        VALUES ( ?, ?, ?)''', 
-        ( name, artist_id, track) )
 
+        url = track
+        html = urlopen(url, context=ctx).read()
+        soup = BeautifulSoup(html, "html.parser")
+
+        tags = soup('h1')
+
+        for tag in tags :
+            if len(tag.string) > 1 :
+                if tag.string in list_name:
+                    continue 
+                else:
+                    print("****************",tag.string)
+                    name6 = tag.string
+                    name6_pice = name6.split(' - ')
+
+                    name = name6_pice[1]
+                    fullname = name6
+
+        html2 = html.decode()
+        
+        html2 = html2.replace("<body>",'''<body style="background-color:black">''')
+        html2 = html2.replace('''<pre class="tab-text">''','''<pre class="tab-text"  style="color:white"  >''')
+        html2 = html2.replace('''<div id="cardTab" class="card">''','''<div id="cardTab" class="card" style="background-color:black">''')
+
+        cur.execute('''INSERT OR REPLACE INTO Track
+        (title, fullname , html, html_dark, artist_id, link_track) 
+        VALUES ( ?, ?, ?, ?, ?, ?)''', 
+        ( name, fullname , html , html2 ,artist_id, track) )
+        cur.execute('''UPDATE Artists SET name = (?)
+                WHERE id = (?)''', (name6_pice[0], artist_id))
 
 
     
