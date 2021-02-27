@@ -13,5 +13,5 @@ This repo contains exercises and projects done in several Python courses on the 
 
 # Other projects
 
-- [Text To Speech]()
+- [Text To Speech](https://github.com/CristiSandu/PythonCourse/tree/master/text_to_speech)
 - [WhatsApp Automation](https://github.com/CristiSandu/PythonCourse/tree/master/Automation)
