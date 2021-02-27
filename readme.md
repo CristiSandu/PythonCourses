@@ -11,6 +11,8 @@ This repo contains exercises and projects done in several Python courses on the 
 5. [Capstone: Retrieving, Processing, and Visualizing Data with Python](https://github.com/CristiSandu/PythonCourse/tree/master/Course%205) - [Certificate](https://coursera.org/share/0031f00e748d371766d6e934033e9a66)
 6. [Build a Python GUI with Tkinter](https://github.com/CristiSandu/PythonCourse/tree/master/Build%20a%20Python%20GUI%20with%20Tkinter) - [Certificate](https://coursera.org/share/3eda7c9b2e4e24ebb34fa079c8a006ad)
 
+### [Python for Everybody - certificate of specialization](https://coursera.org/share/5bbfa81b2e8d0ee927f22b4e5e647b4c)
+
 # Other projects
 
 - [Text To Speech]()
